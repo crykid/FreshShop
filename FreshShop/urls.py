@@ -20,14 +20,37 @@ from django.views.static import serve
 import xadmin
 from rest_framework.documentation import include_docs_urls
 
-# from goods.views_base import GoodsListView
-from goods.views import GoodsListView
+# v1.0
+from goods.views_base import GoodsListView
+
+# v2.0
+# from goods.views import GoodsListView
+from goods.views import GoodsListVeiwSet
+
+# v6.0,使用router，自动对v5.0做处理
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+# 配置goods的url
+router.register(r'goods', GoodsListVeiwSet)
+
+# v5.0
+# goods_list = GoodsListVeiwSet.as_view({
+#     'get': 'list',  # 把get请求绑定在list上
+# })
+
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
 
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # 配置图片资源访问路径
     url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
-    url(r'goods/$', GoodsListView.as_view(), name="goods-list"),
+
+    # v1.0-v4.0使用
+    # url(r'goods/$', GoodsListView.as_view(), name="goods-list"),
+    # v5.0使用
+    # url(r'goods/$', goods_list, name="goods-list"),
+
+    url(r'^', include(router.urls)),
     url(r'docs/', include_docs_urls(title="生鲜超市")),
 ]

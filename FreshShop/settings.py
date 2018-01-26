@@ -135,3 +135,11 @@ STATIC_URL = '/static/'
 # 配置图片资源访问路径
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# REST_FRAMEWORK = {
+#     ##每页10条数据
+#     'PAGE_SIZE': 10,
+#     # 分页功能
+#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+#
+# }
