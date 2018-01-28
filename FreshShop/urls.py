@@ -21,7 +21,7 @@ import xadmin
 from rest_framework.documentation import include_docs_urls
 
 # v1.0
-from goods.views_base import GoodsListView
+# from goods.views_base import GoodsListView
 
 # v2.0
 # from goods.views import GoodsListView

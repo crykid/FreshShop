@@ -41,6 +41,8 @@ class GoodsListView(View):
 
         json_list = []
         goods = Goods.objects.all()[:10]
+
+        # 把取到的所有goods转化为列表的方法1：
         # for good in goods:
         #     json_dict = {}
         #     json_dict["name"] = good.name
@@ -48,16 +50,22 @@ class GoodsListView(View):
         #     json_dict["market_price"] = good.market_price
         #     json_list.append(json_dict)
         #
+
+        # 把取到的所有的goods转化为列表的方法2：
         # from django.forms.models import model_to_dict
         #
         # for good in goods:
         #     json_dict = model_to_dict(good)
         #     json_list.append(json_dict)
 
+        # 把取到的所有的goods转化为列表的方法3：
         from django.core import serializers
         import json
         json_data = serializers.serialize("json", goods)
         json_data = json.loads(json_data)
         from django.http import HttpResponse, JsonResponse
         import json
+
+        # return HttpResponse(json.dumps(json_list), content_type="application/json")
+        # JsonResponse 是httpResponse的升级版，替它做了json转化
         return JsonResponse(json_data, safe=False)
