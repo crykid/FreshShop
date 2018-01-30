@@ -1,6 +1,7 @@
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import filters
 from rest_framework import mixins, generics, viewsets
 
 from .models import Goods
@@ -62,15 +63,18 @@ class GoodsPagination(PageNumberPagination):
 # v5.0版本
 class GoodsListVeiwSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """
-    使用这个，分页才会起效，有了分页功能
-    List all goods
+    商品列表页，包含：分页，搜索，过滤，排序功能
     """
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
 
     # 配置过滤功能
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     # 这样只是精确匹配
     filter_fields = ("name", "shop_price")
     filter_class = GoodsFilter
+    # 字段前面加一些特殊符号表示不同的意义："^"start-with，"="exact matches，"@"full-text search,"$"regex search
+    search_fields = ("name", "id")
+    # 排序
+    ordering_fields = ("sold_num", "add_time")
