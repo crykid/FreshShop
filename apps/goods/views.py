@@ -45,9 +45,9 @@ class GoodsPagination(PageNumberPagination):
     设置分页功能，设置了这个就不需要在setting里面配置REST_FRAMEWORK分页配置了，
     v4.0-v6.0使用的分页
     """
-    page_size = 10
+    page_size = 12
     page_size_query_param = 'page_size'
-    page_query_param = "p"
+    page_query_param = "page"
     max_page_size = 100
 
 
@@ -78,7 +78,7 @@ class GoodsListVeiwSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     # 字段前面加一些特殊符号表示不同的意义："^"start-with，"="exact matches，"@"full-text search,"$"regex search
     search_fields = ("name", "id")
     # 排序
-    ordering_fields = ("sold_num", "add_time")
+    ordering_fields = ("sold_num", "shop_price")
 
 
 # 只要继承中间哪个RetrieveModelMixin就可以查询单个详情
