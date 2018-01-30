@@ -81,6 +81,7 @@ class GoodsListVeiwSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     ordering_fields = ("sold_num", "add_time")
 
 
+# 只要继承中间哪个RetrieveModelMixin就可以查询单个详情
 class CategoryViewset(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     list:

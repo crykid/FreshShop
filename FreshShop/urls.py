@@ -36,7 +36,7 @@ router = DefaultRouter()
 # 配置goods的url
 router.register(r'goods', GoodsListVeiwSet)
 # 配置categories的url
-router.register(r'categories', CategoryViewset)
+router.register(r'categorys', CategoryViewset)
 
 # v5.0
 # goods_list = GoodsListVeiwSet.as_view({

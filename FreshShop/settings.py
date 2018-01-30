@@ -48,9 +48,13 @@ INSTALLED_APPS = [
     'xadmin',
     'rest_framework',
     'django_filters',
+    # 配置django-cors-headers
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    # 配置django-cors-headers
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -60,6 +64,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# 配置django-cors-headers
+CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'FreshShop.urls'
 
 TEMPLATES = [
