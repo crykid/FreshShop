@@ -25,14 +25,18 @@ from rest_framework.documentation import include_docs_urls
 
 # v2.0
 # from goods.views import GoodsListView
-from goods.views import GoodsListVeiwSet
+from goods.views import GoodsListVeiwSet, CategoryViewset
 
 # v6.0,使用router，自动对v5.0做处理
 from rest_framework.routers import DefaultRouter
 
+
 router = DefaultRouter()
+
 # 配置goods的url
 router.register(r'goods', GoodsListVeiwSet)
+# 配置categories的url
+router.register(r'categories', CategoryViewset)
 
 # v5.0
 # goods_list = GoodsListVeiwSet.as_view({

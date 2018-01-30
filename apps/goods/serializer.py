@@ -8,7 +8,7 @@ Description:
 """
 
 from rest_framework import serializers
-from goods.models import Goods,GoodsCategory
+from goods.models import Goods, GoodsCategory
 
 
 # class GoodsSerializer(serializers.Serializer):
@@ -25,16 +25,38 @@ from goods.models import Goods,GoodsCategory
 #         """
 #         return Goods.objects.create(**validated_data)
 
-class CategorySerializer(serializers.ModelSerializer):
+class CategorySerializer3(serializers.ModelSerializer):
     class Meta:
         model = GoodsCategory
         fields = "__all__"
+
+
+class CategorySerializer2(serializers.ModelSerializer):
+    sub_cat = CategorySerializer3(many=True)
+
+    class Meta:
+        model = GoodsCategory
+        fields = "__all__"
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    """
+      商品类别序列化
+      """
+    # many=True一定不要漏掉
+    sub_cat = CategorySerializer2(many=True)
+
+    class Meta:
+        model = GoodsCategory
+        fields = "__all__"
+
 
 class GoodsSerializer(serializers.ModelSerializer):
     """
     直接通过model映射
     """
     category = CategorySerializer()
+
     class Meta:
         model = Goods
         # fields = ('id', 'name', 'click_num', 'market_price', 'add_time')
