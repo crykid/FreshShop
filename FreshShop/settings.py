@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'django_filters',
     # 配置django-cors-headers
     'corsheaders',
+    # 配置token认证
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -143,10 +145,16 @@ STATIC_URL = '/static/'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-# REST_FRAMEWORK = {
-#     ##每页10条数据
-#     'PAGE_SIZE': 10,
-#     # 分页功能
-#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-#
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
+
+    #     ##每页10条数据
+    #     'PAGE_SIZE': 10,
+    #     # 分页功能
+    #     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    #
+}

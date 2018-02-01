@@ -19,6 +19,7 @@ from django.views.static import serve
 # from django.contrib import admin
 import xadmin
 from rest_framework.documentation import include_docs_urls
+from rest_framework.authtoken import views
 
 # v1.0
 # from goods.views_base import GoodsListView
@@ -29,7 +30,6 @@ from goods.views import GoodsListVeiwSet, CategoryViewset
 
 # v6.0,使用router，自动对v5.0做处理
 from rest_framework.routers import DefaultRouter
-
 
 router = DefaultRouter()
 
@@ -57,4 +57,6 @@ urlpatterns = [
 
     url(r'^', include(router.urls)),
     url(r'docs/', include_docs_urls(title="生鲜超市")),
+
+    url(r'^api-token-auth/', views.obtain_auth_token),
 ]
