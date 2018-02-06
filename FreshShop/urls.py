@@ -17,33 +17,37 @@ from django.conf.urls import url, include
 from FreshShop.settings import MEDIA_ROOT
 from django.views.static import serve
 # from django.contrib import admin
+
+
 import xadmin
 from rest_framework.documentation import include_docs_urls
 from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
-
+from rest_framework.routers import DefaultRouter
 
 # v1.0
 # from goods.views_base import GoodsListView
-
 # v2.0
 # from goods.views import GoodsListView
 from goods.views import GoodsListVeiwSet, CategoryViewset
-
 # v6.0,使用router，自动对v5.0做处理
-from rest_framework.routers import DefaultRouter
+from users.views import SmsCodeViewset
 
 router = DefaultRouter()
 
-# 配置goods的url
-router.register(r'goods', GoodsListVeiwSet)
-# 配置categories的url
-router.register(r'categorys', CategoryViewset)
 
+# 配置goods的url
+router.register(r'goods', GoodsListVeiwSet,base_name="goods")
 # v5.0
 # goods_list = GoodsListVeiwSet.as_view({
 #     'get': 'list',  # 把get请求绑定在list上
 # })
+
+# 配置categories的url
+router.register(r'categorys', CategoryViewset,base_name="categorys")
+# 生成验证码
+router.register(r'code', SmsCodeViewset,base_name="code")
+
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),

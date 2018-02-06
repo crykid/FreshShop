@@ -169,5 +169,11 @@ REST_FRAMEWORK = {
 # JWT 配置
 JWT_AUTH = {
     "JWT_EXPIRATION_DELTA": datetime.timedelta(days=7),
-    "JWT_AUTH_HEADER_PREFIX":"JWT",
+    "JWT_AUTH_HEADER_PREFIX": "JWT",
 }
+
+# 手机号码正则表达式
+REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
+
+# 云片网设置
+APIKEY = "6e9851b9836c8a2b118f1f4d9f563bfc"
