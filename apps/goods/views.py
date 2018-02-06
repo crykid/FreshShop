@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import filters
 from rest_framework import mixins, generics, viewsets
-
+from rest_framework.authentication import  TokenAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .filters import GoodsFilter
@@ -69,7 +69,7 @@ class GoodsListVeiwSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
-
+    # authentication_classes = (TokenAuthentication,)
     # 配置过滤功能
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     # 这样只是精确匹配
