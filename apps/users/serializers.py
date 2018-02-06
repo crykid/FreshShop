@@ -54,6 +54,8 @@ class UserRegSerializer(serializers.ModelSerializer):
     """
 
     code = serializers.CharField(max_length=SMS_CODE_LENGTH, min_length=SMS_CODE_LENGTH, help_text="验证码",
+                                 label="验证码",
+                                 write_only=True,
                                  error_messages={
                                      "blank": "请输入验证码",
                                      "required": "请输入验证码",
@@ -62,8 +64,21 @@ class UserRegSerializer(serializers.ModelSerializer):
 
                                  })
     username = serializers.CharField(required=True, allow_blank=False,
+                                     label="用户名",
                                      validators=[UniqueValidator(queryset=User.objects.all(),
                                                                  message="用户已经存在")])
+    password = serializers.CharField(style={"input_type": "password"}, label="密码", write_only=True)
+
+    # def create(self, validated_data):
+    #     """
+    #     password 加密
+    #     :param validated_data:
+    #     :return:
+    #     """
+    #     user = super(UserRegSerializer, self).create(validated_data=validated_data)
+    #     user.set_password(validated_data["password"])
+    #     user.save()
+    #     return user
 
     def validate_code(self, code):
         """
@@ -84,7 +99,7 @@ class UserRegSerializer(serializers.ModelSerializer):
             last_records = verify_records[0]
 
             five_minutes_ago = datetime.now() - timedelta(hours=0, minutes=5, seconds=0)
-            if five_minutes_ago < last_records.add_time:
+            if five_minutes_ago > last_records.add_time:
                 raise serializers.ValidationError("验证码过期")
 
             if last_records.code != code:
@@ -99,4 +114,4 @@ class UserRegSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("username", "code", "mobile",)
+        fields = ("username", "code", "mobile", "password")
