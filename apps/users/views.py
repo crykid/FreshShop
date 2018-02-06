@@ -13,9 +13,10 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 
-from .serializers import SmsSerializer
+from .serializers import SmsSerializer, UserRegSerializer
 from utils.yunpian import YunPian
-from FreshShop.settings import APIKEY
+from FreshShop.settings import APIKEY, SMS_CODE_LENGTH
+
 from .models import VerifyCode
 
 User = get_user_model()
@@ -93,7 +94,7 @@ class SmsCodeViewset(CreateModelMixin, viewsets.GenericViewSet):
         """
         seeds = "1234567890"
         random_str = []
-        for i in range(4):
+        for i in range(SMS_CODE_LENGTH):
             random_str.append(choice(seeds))
         return "".join(random_str)
 
@@ -111,14 +112,23 @@ class SmsCodeViewset(CreateModelMixin, viewsets.GenericViewSet):
         sms_status = yun_pian.send_sms(code=code, mobile=mobile)
 
         if sms_status["code"] != 0:
-            return Response({
-                "code": sms_status["code"],
-                "mobile": sms_status["mobile"],
-                "msg": sms_status["msg"],
-            }, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                #     {
+                #     "code": sms_status["code"],
+                #     "mobile": mobile,
+                #     "msg": sms_status["msg"]
+                # }
+                sms_status, status=status.HTTP_400_BAD_REQUEST)
         else:
             # 发送成功后保存验证码
             code_record = VerifyCode(code=code, mobile=mobile)
             code_record.save()
 
             return Response(sms_status, status=status.HTTP_201_CREATED)
+
+
+class UserViewset(CreateModelMixin, viewsets.GenericViewSet):
+    """
+    用户
+    """
+    serializer_class = UserRegSerializer

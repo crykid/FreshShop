@@ -12,12 +12,13 @@ from datetime import datetime
 from datetime import timedelta
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from rest_framework.validators import UniqueValidator
 
-
-from FreshShop.settings import REGEX_MOBILE
+from FreshShop.settings import REGEX_MOBILE, SMS_CODE_LENGTH
 from .models import VerifyCode
 
 User = get_user_model()
+
 
 class SmsSerializer(serializers.Serializer):
     """
@@ -45,3 +46,57 @@ class SmsSerializer(serializers.Serializer):
             raise serializers.ValidationError("距离上次发送未超过60s")
 
         return mobile
+
+
+class UserRegSerializer(serializers.ModelSerializer):
+    """
+
+    """
+
+    code = serializers.CharField(max_length=SMS_CODE_LENGTH, min_length=SMS_CODE_LENGTH, help_text="验证码",
+                                 error_messages={
+                                     "blank": "请输入验证码",
+                                     "required": "请输入验证码",
+                                     "max_length": "验证码格式错误",
+                                     "min_length": "验证码格式错误",
+
+                                 })
+    username = serializers.CharField(required=True, allow_blank=False,
+                                     validators=[UniqueValidator(queryset=User.objects.all(),
+                                                                 message="用户已经存在")])
+
+    def validate_code(self, code):
+        """
+
+        :param code:
+        :return:
+        """
+        sms_err_msg = "验证码错误"
+        # try:
+        #     verify_records = VerifyCode.objects.get(mobile=self.initial_data["username"], code=code)
+        # except VerifyCode.DoesNotExist as e:
+        #     pass
+        # except VerifyCode.MultipleObjectsReturned as e:
+        #     pass
+        # 使用filter而不用get是因为在get情况下需要考虑不存在或存在多个的情况
+        verify_records = VerifyCode.objects.filter(mobile=self.initial_data["username"]).order_by("-add_time")
+        if verify_records:
+            last_records = verify_records[0]
+
+            five_minutes_ago = datetime.now() - timedelta(hours=0, minutes=5, seconds=0)
+            if five_minutes_ago < last_records.add_time:
+                raise serializers.ValidationError("验证码过期")
+
+            if last_records.code != code:
+                raise serializers.ValidationError(sms_err_msg)
+        else:
+            raise serializers.ValidationError(sms_err_msg)
+
+    def validate(self, attrs):
+        attrs["mobile"] = attrs["username"]
+        del attrs["code"]
+        return attrs
+
+    class Meta:
+        model = User
+        fields = ("username", "code", "mobile",)

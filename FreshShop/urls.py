@@ -31,23 +31,22 @@ from rest_framework.routers import DefaultRouter
 # from goods.views import GoodsListView
 from goods.views import GoodsListVeiwSet, CategoryViewset
 # v6.0,使用router，自动对v5.0做处理
-from users.views import SmsCodeViewset
+from users.views import SmsCodeViewset, UserViewset
 
 router = DefaultRouter()
 
-
 # 配置goods的url
-router.register(r'goods', GoodsListVeiwSet,base_name="goods")
+router.register(r'goods', GoodsListVeiwSet, base_name="goods")
 # v5.0
 # goods_list = GoodsListVeiwSet.as_view({
 #     'get': 'list',  # 把get请求绑定在list上
 # })
 
 # 配置categories的url
-router.register(r'categorys', CategoryViewset,base_name="categorys")
+router.register(r'categorys', CategoryViewset, base_name="categorys")
 # 生成验证码
-router.register(r'code', SmsCodeViewset,base_name="code")
-
+router.register(r'code', SmsCodeViewset, base_name="code")
+router.register(r'users', UserViewset, base_name="users")
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),

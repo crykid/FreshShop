@@ -172,8 +172,12 @@ JWT_AUTH = {
     "JWT_AUTH_HEADER_PREFIX": "JWT",
 }
 
+'''
+短信验证码设置
+'''
 # 手机号码正则表达式
 REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
-
 # 云片网设置
 APIKEY = "6e9851b9836c8a2b118f1f4d9f563bfc"
+# 验证码长度,如果需要修改验证码长度（位数），修改此字段即可
+SMS_CODE_LENGTH = 4
