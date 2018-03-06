@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import filters
 from rest_framework import mixins, generics, viewsets
-from rest_framework.authentication import  TokenAuthentication
+from rest_framework.authentication import TokenAuthentication
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .filters import GoodsFilter
@@ -62,7 +62,7 @@ class GoodsPagination(PageNumberPagination):
 #     pagination_class = GoodsPagination
 
 # v5.0版本
-class GoodsListVeiwSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class GoodsListVeiwSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     商品列表，包含：分页，搜索，过滤，排序功能
     """

@@ -8,7 +8,7 @@ Description:
 """
 
 from rest_framework import serializers
-from goods.models import Goods, GoodsCategory
+from goods.models import Goods, GoodsCategory, GoodsImage
 
 
 # class GoodsSerializer(serializers.Serializer):
@@ -51,11 +51,18 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class GoodsImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoodsImage
+        fields = ("image",)
+
+
 class GoodsSerializer(serializers.ModelSerializer):
     """
     直接通过model映射
     """
     category = CategorySerializer()
+    images = GoodsImageSerializer(many=True)
 
     class Meta:
         model = Goods
