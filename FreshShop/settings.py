@@ -155,8 +155,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        # django-rest-framework-jwt token配置
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # django-rest-framework-jwt token配置。右边2018.03.08/18：30修改：不再使用全局配置，而是具体某个接口配置
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     )
 
     #     ##每页10条数据

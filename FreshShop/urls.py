@@ -33,6 +33,8 @@ from goods.views import GoodsListVeiwSet, CategoryViewset
 # v6.0,使用router，自动对v5.0做处理
 from users.views import SmsCodeViewset, UserViewset
 
+from user_operation.views import UserFravViewset
+
 router = DefaultRouter()
 
 # 配置goods的url
@@ -46,7 +48,10 @@ router.register(r'goods', GoodsListVeiwSet, base_name="goods")
 router.register(r'categorys', CategoryViewset, base_name="categorys")
 # 生成验证码
 router.register(r'code', SmsCodeViewset, base_name="code")
+
 router.register(r'users', UserViewset, base_name="users")
+
+router.register(r'userfavs', UserFravViewset, base_name="userfavs")
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
