@@ -13,6 +13,8 @@ from rest_framework import permissions
 class IsOwnerOrReadOnly(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
+
+        #判断是否是安全的方法
         if request.method in permissions.SAFE_METHODS:
             return True
 
