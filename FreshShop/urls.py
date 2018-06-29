@@ -31,7 +31,7 @@ from rest_framework.routers import DefaultRouter
 # from goods.views import GoodsListView
 from goods.views import GoodsListVeiwSet, CategoryViewset
 # v6.0,使用router，自动对v5.0做处理
-from users.views import SmsCodeViewset, UserViewset
+from users.views import SmsCodeViewset, UserViewset,UserProfileViewset
 
 from user_operation.views import UserFravViewset
 
@@ -52,6 +52,8 @@ router.register(r'code', SmsCodeViewset, base_name="code")
 router.register(r'users', UserViewset, base_name="users")
 
 router.register(r'userfavs', UserFravViewset, base_name="userfavs")
+
+# router.register(r'userprofile', UserProfileViewset, base_name="userprofile")
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),

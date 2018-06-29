@@ -15,7 +15,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.validators import UniqueValidator
 
 from FreshShop.settings import REGEX_MOBILE, SMS_CODE_LENGTH
-from .models import VerifyCode
+from .models import VerifyCode, UserProfile
 
 User = get_user_model()
 
@@ -115,3 +115,12 @@ class UserRegSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("username", "code", "mobile", "password")
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    """
+    用户信息序列化类
+    """
+    class Meta:
+        model = User
+        fields = ("name", "gender", "birthday", "email","mobile")

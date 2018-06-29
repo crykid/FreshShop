@@ -30,7 +30,8 @@ SECRET_KEY = '7rd$a49ihuv71t$&i+irh30!p_lyiwcred_wgvc)zl4z#hy66x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['192.168.1.197', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*',]
 
 AUTH_USER_MODEL = 'users.UserProfile'
 # Application definition
@@ -181,3 +182,6 @@ REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
 APIKEY = "6e9851b9836c8a2b118f1f4d9f563bfc"
 # 验证码长度,如果需要修改验证码长度（位数），修改此字段即可
 SMS_CODE_LENGTH = 4
+
+
+
